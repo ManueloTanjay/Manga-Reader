@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">MangaReader</string>
+    <string-array name="chapters">
+        <item>Chapter 1</item>
+        <item>Chapter 2</item>
+        <item>Chapter 3</item>
+        <item>Chapter 4</item>
+        <item>Chapter 5</item>
+        <item>Chapter 6</item>
+        <item>Chapter 7</item>
+        <item>Chapter 8</item>
+        <item>Chapter 9</item>
+        <item>Chapter 10</item>
+        <item>Chapter 11</item>
+        <item>Chapter 12</item>
+        <item>Chapter 13</item>
+        <item>Chapter 14</item>
+        <item>Chapter 15</item>
+        <item>Chapter 16</item>
+        <item>Chapter 17</item>
+        <item>Chapter 18</item>
+        <item>Chapter 19</item>
+        <item>Chapter 20</item>
+        <item>Chapter 21</item>
+        <item>Chapter 22</item>
+        <item>Chapter 23</item>
+        <item>Chapter 24</item>
+        <item>Chapter 25</item>
+        <item>Chapter 26</item>
+        <item>Chapter 27</item>
+        <item>Chapter 28</item>
+
+    </string-array>
 </resources>
