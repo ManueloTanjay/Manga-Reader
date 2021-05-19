@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">MangaReader</string>
+    <string-array name="titles">
+        <item>Naruto</item>
+        <item>Bleach</item>
+        <item>One Piece</item>
+        <item>Dragon Ball Z</item>
+        <item>Full Metal Alchemist</item>
+        <item>Attack on Titan</item>
+        <item>Tatami Galaxy</item>
+        <item>Oyasumi Punpun</item>
+        <item>Berserk</item>
+        <item>Jojo\'s Bizzare Adventure</item>
+        <item>Solo Leveling</item>
+        <item>Slam Dunk</item>
+        <item>Vagabond</item>
+        <item>Mushishi</item>
+        <item>Redline</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>Ninjas and shit</item>
+        <item>Shinigami and shit</item>
+        <item>Pirates and Shit</item>
+        <item>Saiyans and shit</item>
+        <item>Alchemists and shit</item>
+        <item>Titans and shit</item>
+        <item>College and shit</item>
+        <item>Depression and shit</item>
+        <item>More Depression and shit</item>
+        <item>tf is even going on</item>
+        <item>Shit shit</item>
+        <item>Basketball and shit</item>
+        <item>Musashi and shit</item>
+        <item>Relaxing shit</item>
+        <item>Legendary shit</item>
+    </string-array>
 </resources>

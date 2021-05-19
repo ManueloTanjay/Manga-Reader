@@ -1,10 +1,12 @@
 package com.example.mangareader;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     public String baseURL = "https://api.mangadex.org";
     public String searchManga = "/manga?title=%s&limit=100&contentRating%5B%5D=safe";
@@ -15,5 +17,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SearchResultsFragment results = new SearchResultsFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.homepage, results);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
