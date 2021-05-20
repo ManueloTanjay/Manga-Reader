@@ -1,4 +1,4 @@
-package com.example.mangareader;
+package com.example.mangareader.search;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mangareader.R;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
