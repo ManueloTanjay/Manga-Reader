@@ -19,9 +19,9 @@ public class Chapter implements Comparable<Chapter>{
 
     @Override
     public int compareTo(Chapter o) {
-        int vol_comp = Integer.valueOf(this.volume).compareTo(Integer.valueOf(o.volume));
+        int vol_comp = Double.valueOf(this.volume).compareTo(Double.valueOf(o.volume));
         if (vol_comp == 0) {
-            return Integer.valueOf(this.chapter).compareTo(Integer.valueOf(o.chapter));
+            return Double.valueOf(this.chapter).compareTo(Double.valueOf(o.chapter));
         } else {
             return vol_comp;
         }

@@ -19,8 +19,8 @@ public class SearchResultsFragment extends Fragment {
     RecyclerView recyclerView;
     MainActivity act;
 
-    String[] titles, descs, ids;
-    int size;
+    String[] titles, descs, ids, tags;
+    int size, tagsSize;
 //    List<String> titles;
 //    List<String> descs;
 //    List<String> ids;
@@ -33,19 +33,24 @@ public class SearchResultsFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.results);
 
         size = getArguments().getStringArrayList("mangaTitles").size();
+        tagsSize = getArguments().getStringArrayList("mangaTags").size();
         titles = new String[size];
         descs = new String[size];
         ids = new String[size];
+        tags = new String[tagsSize];
         for(int i = 0; i < size; i++) {
             titles[i] = getArguments().getStringArrayList("mangaTitles").get(i);
             descs[i] = getArguments().getStringArrayList("mangaDescriptions").get(i);
             ids[i] = getArguments().getStringArrayList("mangaIds").get(i);
 
-            if(descs[i].length() > 100)
-                descs[i] = descs[i].substring(0, 100) + "...";
+//            if(descs[i].length() > 100)
+//                descs[i] = descs[i].substring(0, 100) + "...";
+        }
+        for (int i = 0; i < tagsSize; i++){
+            tags[i] = getArguments().getStringArrayList("mangaTags").get(i);
         }
 
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), titles, descs, ids);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), titles, descs, ids, tags);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

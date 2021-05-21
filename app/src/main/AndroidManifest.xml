@@ -16,7 +16,7 @@
             android:parentActivityName=".search.MainActivity"></activity>
         <activity
             android:name=".pages.PageActivity"
-            android:parentActivityName=".search.MainActivity"
+            android:parentActivityName=".chapters.ChapterActivity"
             android:label="" />
         <activity android:name=".search.MainActivity">
             <intent-filter>
