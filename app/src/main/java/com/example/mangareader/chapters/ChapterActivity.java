@@ -193,7 +193,7 @@ public class ChapterActivity extends FragmentActivity {
 
                 // Set the display
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView_chapters);
-                rvAdapter = new RecyclerViewAdapterChapters(ct, chapters_info, chapters_hash);
+                rvAdapter = new RecyclerViewAdapterChapters(ct, chapters_info, chapters_id);
 
                 runOnUiThread(new Runnable() {
                     @Override

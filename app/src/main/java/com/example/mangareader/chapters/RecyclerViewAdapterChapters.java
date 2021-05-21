@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mangareader.R;
 import com.example.mangareader.pages.PageActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerViewAdapterChapters.MyViewHolder> {
@@ -22,13 +21,13 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
     Context ct;
     //    String chapters[];
     ArrayList<String> chapters;
-    ArrayList<String> chapters_hash;
+    ArrayList<String> chapters_ids;
 
     //    public RecyclerViewAdapterChapters(Context ct, String chapters[]) {
-    public RecyclerViewAdapterChapters(Context ct, ArrayList<String> chapters, ArrayList<String> chapters_hash) {
+    public RecyclerViewAdapterChapters(Context ct, ArrayList<String> chapters, ArrayList<String> chapters_ids) {
         this.ct = ct;
         this.chapters = chapters;
-        this.chapters_hash = chapters_hash;
+        this.chapters_ids = chapters_ids;
         System.out.println("Rec");
     }
 
@@ -48,7 +47,7 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ct, PageActivity.class);
-                intent.putExtra("chapter_hash", chapters_hash.get(position));
+                intent.putExtra("chapter_hash", chapters_ids.get(position));
                 ct.startActivity(intent);
             }
         });
