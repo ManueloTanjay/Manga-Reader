@@ -32,8 +32,8 @@ public class PageActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        if (getIntent().hasExtra("chapter_hash")) {
-            id = getIntent().getStringExtra("chapter_hash");
+        if (getIntent().hasExtra("chapter_id")) {
+            id = getIntent().getStringExtra("chapter_id");
             testData.setText(id);
         }
     }

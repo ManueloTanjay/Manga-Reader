@@ -47,7 +47,7 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ct, PageActivity.class);
-                intent.putExtra("chapter_hash", chapters_ids.get(position));
+                intent.putExtra("chapter_id", chapters_ids.get(position));
                 ct.startActivity(intent);
             }
         });
