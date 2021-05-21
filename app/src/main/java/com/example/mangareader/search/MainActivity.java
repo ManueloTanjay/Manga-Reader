@@ -6,9 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toolbar;
 
 import androidx.appcompat.widget.SearchView;
@@ -59,13 +62,10 @@ public class MainActivity extends FragmentActivity {
             public boolean onQueryTextSubmit(String s) {
 
                 clearFragmentBStack();
-
-                //==========================
+                searchView.clearFocus();
 
                 query = searchView.getQuery().toString();
                 loadSearchResults(query);
-
-                //==========================
 
                 return true;
             }

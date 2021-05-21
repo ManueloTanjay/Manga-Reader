@@ -45,7 +45,7 @@ public class SearchResultsFragment extends Fragment {
                 descs[i] = descs[i].substring(0, 100) + "...";
         }
 
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), titles, descs);
+        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(getContext(), titles, descs, ids);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
