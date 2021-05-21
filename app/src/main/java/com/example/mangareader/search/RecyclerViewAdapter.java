@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangareader.R;
+import com.example.mangareader.chapters.ChapterActivity;
 import com.example.mangareader.pages.PageActivity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
@@ -42,8 +43,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.pageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ct, PageActivity.class);
+                Intent intent = new Intent(ct, ChapterActivity.class);
                 intent.putExtra("id", ids[position]);
+                intent.putExtra("description", desc[position]);
                 ct.startActivity(intent);
             }
         });

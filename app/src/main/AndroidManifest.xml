@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MangaReader">
+        <activity android:name=".chapters.ChapterActivity"
+            android:parentActivityName=".search.MainActivity"></activity>
         <activity
             android:name=".pages.PageActivity"
             android:parentActivityName=".search.MainActivity"
