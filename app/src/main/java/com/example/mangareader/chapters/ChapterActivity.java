@@ -2,9 +2,13 @@ package com.example.mangareader.chapters;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.mangareader.R;
 
@@ -18,6 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class ChapterActivity extends FragmentActivity {
@@ -28,7 +33,12 @@ public class ChapterActivity extends FragmentActivity {
     public String getBaseURL = "/at-home/server/%s";
 
     // Fragments
-    public MangaChaptersFragment mangaChaptersFragment;
+//    public MangaChaptersFragment mangaChaptersFragment;
+
+    // View element
+    RecyclerView recyclerView;
+    RecyclerViewAdapterChapters rvAdapter;
+    TextView textView_title, textView_description, textView_genre;
 
     // Passing Data
     Bundle bundle;
@@ -47,11 +57,25 @@ public class ChapterActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chapter);
 
-        getMangaThread = new Thread(new getMangaRunnable());
+        textView_title = (TextView) findViewById(R.id.textView_title);
+        textView_description = (TextView) findViewById(R.id.textView_description);
+        textView_genre = (TextView) findViewById(R.id.textView_genre);
+
+        textView_title.setText("narubodsdf");
+        textView_description.setText("dsadfdfkgdjfslkhjsdn;fkgijnsdp;lfigiha;odlfjgnb;dlfjkgnb;lxikfdgb");
+        textView_genre.setText("porn");
+
+        getMangaThread = new Thread(new getMangaRunnable(this));
         getMangaThread.start();
     }
 
     private class getMangaRunnable implements Runnable {
+        Context ct;
+
+        public getMangaRunnable(Context ct) {
+            this.ct = ct;
+        }
+
         @Override
         public void run() {
             try {
@@ -79,27 +103,24 @@ public class ChapterActivity extends FragmentActivity {
                     Chapter chapter = new Chapter();
 
                     JSONObject jsonChapterElem = results.getJSONObject(countChapter);
-                    chapter.chapter = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("chapter");
                     chapter.volume = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("volume");
+                    chapter.chapter = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("chapter");
+                    if (chapter.chapter.equals("null"))
+                        chapter.chapter = "0";
+
                     chapter.title = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("title");
                     chapter.language = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("translatedLanguage");
                     chapter.hash = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("hash");
                     chapter.id = jsonChapterElem.getJSONObject("data").getString("id");
 
-
-
                     // Get each manga page url in this chapter
-                    JSONArray pagesURL = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getJSONArray("data");
-                    for (int j = 0; j < pagesURL.length(); j++) {
-                        chapter.images_url.add(pagesURL.getString(j));
-                    }
+//                    JSONArray pagesURL = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getJSONArray("data");
+//                    for (int j = 0; j < pagesURL.length(); j++) {
+//                        chapter.images_url.add(pagesURL.getString(j));
+//                    }
 
                     if (!chapter.volume.equals("null")) {
                         chapters.add(chapter);
-
-                        // load data to pass to fragment
-                        chapters_info.add("vol." + chapter.volume + " chapter." + chapter.chapter + ": " + chapter.title);
-                        chapters_id.add(chapter.id);
                     }
                 }
 
@@ -127,39 +148,44 @@ public class ChapterActivity extends FragmentActivity {
                         Chapter chapter = new Chapter();
 
                         JSONObject jsonChapterElem = results.getJSONObject(j);
-                        chapter.chapter = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("chapter");
                         chapter.volume = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("volume");
+                        chapter.chapter = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("chapter");
+                        if (chapter.chapter.equals("null"))
+                            chapter.chapter = "0";
                         chapter.title = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("title");
                         chapter.language = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("translatedLanguage");
                         chapter.hash = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("hash");
                         chapter.id = jsonChapterElem.getJSONObject("data").getString("id");
 
-                        // Get each manga page url in this chapter
-                        JSONArray pagesURL = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getJSONArray("data");
-                        for (int k = 0; k < pagesURL.length(); k++) {
-                            chapter.images_url.add(pagesURL.getString(k));
-                        }
+//                        // Get each manga page url in this chapter
+//                        JSONArray pagesURL = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getJSONArray("data");
+//                        for (int k = 0; k < pagesURL.length(); k++) {
+//                            chapter.images_url.add(pagesURL.getString(k));
+//                        }
 
                         if (!chapter.volume.equals("null")) {
                             chapters.add(chapter);
-
-                            // load data to pass to fragment
-                            chapters_info.add("vol." + chapter.volume + " chapter." + chapter.chapter + ": " + chapter.title);
-                            chapters_id.add(chapter.id);
                         }
                     }
                 }
 
-                bundle = new Bundle();
-                bundle.putStringArrayList("chapters_info", chapters_info);
-                bundle.putStringArrayList("chapters_id", chapters_id);
+                Collections.sort(chapters); // sort the chapters
+                for(Chapter c : chapters) {
+                    chapters_info.add("vol." + c.volume + " chapter." + c.chapter + ": " + c.title);
+                    chapters_id.add(c.id);
+                }
 
-                mangaChaptersFragment = new MangaChaptersFragment();
-                mangaChaptersFragment.setArguments(bundle);
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_mangachapters_fragment, mangaChaptersFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                // Set the display
+                recyclerView = (RecyclerView) findViewById(R.id.recyclerView_chapters);
+                rvAdapter = new RecyclerViewAdapterChapters(ct, chapters_info);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.setAdapter(rvAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(ct));
+                    }
+                });
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

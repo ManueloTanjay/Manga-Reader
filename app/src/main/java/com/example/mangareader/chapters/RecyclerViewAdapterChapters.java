@@ -11,12 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangareader.R;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerViewAdapterChapters.MyViewHolder> {
 
     Context ct;
-    String chapters[];
+//    String chapters[];
+    ArrayList<String> chapters;
 
-    public RecyclerViewAdapterChapters(Context ct, String chapters[]) {
+//    public RecyclerViewAdapterChapters(Context ct, String chapters[]) {
+    public RecyclerViewAdapterChapters(Context ct, ArrayList<String> chapters) {
         this.ct = ct;
         this.chapters = chapters;
     }
@@ -31,12 +36,12 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textView_item.setText(chapters[position]);
+        holder.textView_item.setText(chapters.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return chapters.length;
+        return chapters.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
