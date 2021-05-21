@@ -1,4 +1,4 @@
-package com.example.mangareader;
+package com.example.mangareader.chapters;
 
 import java.util.ArrayList;
 

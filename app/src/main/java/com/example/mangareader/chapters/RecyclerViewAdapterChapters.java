@@ -1,4 +1,4 @@
-package com.example.mangareader;
+package com.example.mangareader.chapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mangareader.R;
 
 public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerViewAdapterChapters.MyViewHolder> {
 
@@ -23,7 +25,7 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(this.ct);
-        View view = inflater.inflate(R.layout.manga_chapter_item, parent, false);
+        View view = inflater.inflate(R.layout.chapter_manga_item, parent, false);
         return new MyViewHolder(view);
     }
 

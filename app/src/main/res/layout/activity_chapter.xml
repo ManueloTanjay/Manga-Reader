@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChapterActivity">
+    tools:context=".chapters.ChapterActivity">
 
     <fragment
-        android:name="com.example.mangareader.MangaDescFragment"
+        android:name="com.example.mangareader.chapters.MangaDescFragment"
         android:id="@+id/fragment_mangades_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <fragment
-        android:name="com.example.mangareader.MangaChaptersFragment"
+        android:name="com.example.mangareader.chapters.MangaChaptersFragment"
         android:id="@+id/fragment_mangachapters_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"

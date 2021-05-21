@@ -1,9 +1,12 @@
-package com.example.mangareader;
+package com.example.mangareader.chapters;
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
+
+import com.example.mangareader.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,12 +27,17 @@ public class ChapterActivity extends FragmentActivity {
     public String getChapters = "/chapter?manga={id}&limit=100&offset={offset}&translatedLanguage=en";
     public String getBaseURL = "/at-home/server/%s";
 
+    // Fragments
+    public MangaChaptersFragment mangaChaptersFragment;
+
     // Passing Data
     Bundle bundle;
 
     // Data
     public String naruto_id = "6b1eb93e-473a-4ab3-9922-1a66d2a29a4a";
     public ArrayList<Chapter> chapters = new ArrayList<>();
+    public ArrayList<String> chapters_info = new ArrayList<>();
+    public ArrayList<String> chapters_id = new ArrayList<>();
 
     private Thread getMangaThread;
     private InputStream inputStream;
@@ -41,9 +49,6 @@ public class ChapterActivity extends FragmentActivity {
 
         getMangaThread = new Thread(new getMangaRunnable());
         getMangaThread.start();
-
-        bundle = new Bundle();
-
     }
 
     private class getMangaRunnable implements Runnable {
@@ -66,14 +71,14 @@ public class ChapterActivity extends FragmentActivity {
                 // Parse JSON
                 JSONObject jsonObject = new JSONObject(result);
                 int totalChapters = jsonObject.getInt("total"); // the total number of chapters
-                int i = 0;
-                Log.v("DEBUG_TAG", "i = " + i + " total = " + totalChapters + " size = " + chapters.size());
+                int countChapter = 0;
+                Log.v("DEBUG_TAG", "i = " + countChapter + " total = " + totalChapters + " size = " + chapters.size());
 
                 JSONArray results = jsonObject.getJSONArray("results");
-                for (i = 0; i < results.length(); i++) {
+                for (countChapter = 0; countChapter < results.length(); countChapter++) {
                     Chapter chapter = new Chapter();
 
-                    JSONObject jsonChapterElem = results.getJSONObject(i);
+                    JSONObject jsonChapterElem = results.getJSONObject(countChapter);
                     chapter.chapter = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("chapter");
                     chapter.volume = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("volume");
                     chapter.title = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("title");
@@ -81,20 +86,27 @@ public class ChapterActivity extends FragmentActivity {
                     chapter.hash = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getString("hash");
                     chapter.id = jsonChapterElem.getJSONObject("data").getString("id");
 
+
+
                     // Get each manga page url in this chapter
                     JSONArray pagesURL = jsonChapterElem.getJSONObject("data").getJSONObject("attributes").getJSONArray("data");
                     for (int j = 0; j < pagesURL.length(); j++) {
                         chapter.images_url.add(pagesURL.getString(j));
                     }
 
-                    if (!chapter.volume.equals("null"))
+                    if (!chapter.volume.equals("null")) {
                         chapters.add(chapter);
+
+                        // load data to pass to fragment
+                        chapters_info.add("vol." + chapter.volume + " chapter." + chapter.chapter + ": " + chapter.title);
+                        chapters_id.add(chapter.id);
+                    }
                 }
 
                 // Loop queries to get all chapters
-                while (i + 1 < totalChapters) {
+                while (countChapter + 1 < totalChapters) {
                     // The following query to get how many chapters there are for this manga
-                    int offset = i + 1;
+                    int offset = countChapter + 1;
                     query = baseURL + getChapters.replace("{id}", naruto_id).replace("{offset}", String.valueOf(offset));
                     url = new URL(query);
                     conn = (HttpURLConnection) url.openConnection();
@@ -106,12 +118,12 @@ public class ChapterActivity extends FragmentActivity {
                     scanner = new Scanner(inputStream).useDelimiter("\\A");
                     result = scanner.hasNext() ? scanner.next() : "";
                     Log.v("DEBUG_TAG", result);
-                    Log.v("DEBUG_TAG", "i = " + i + " total = " + totalChapters + " size = " + chapters.size());
+                    Log.v("DEBUG_TAG", "i = " + countChapter + " total = " + totalChapters + " size = " + chapters.size());
                     // Parse JSON
                     jsonObject = new JSONObject(result);
 
                     results = jsonObject.getJSONArray("results");
-                    for (int j = 0; j < results.length(); j++, i++) {
+                    for (int j = 0; j < results.length(); j++, countChapter++) {
                         Chapter chapter = new Chapter();
 
                         JSONObject jsonChapterElem = results.getJSONObject(j);
@@ -128,11 +140,26 @@ public class ChapterActivity extends FragmentActivity {
                             chapter.images_url.add(pagesURL.getString(k));
                         }
 
-                        if (!chapter.volume.equals("null"))
+                        if (!chapter.volume.equals("null")) {
                             chapters.add(chapter);
+
+                            // load data to pass to fragment
+                            chapters_info.add("vol." + chapter.volume + " chapter." + chapter.chapter + ": " + chapter.title);
+                            chapters_id.add(chapter.id);
+                        }
                     }
                 }
-            System.out.println("");
+
+                bundle = new Bundle();
+                bundle.putStringArrayList("chapters_info", chapters_info);
+                bundle.putStringArrayList("chapters_id", chapters_id);
+
+                mangaChaptersFragment = new MangaChaptersFragment();
+                mangaChaptersFragment.setArguments(bundle);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_mangachapters_fragment, mangaChaptersFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

@@ -1,19 +1,14 @@
 package com.example.mangareader;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import java.io.IOException;
+import com.example.mangareader.chapters.ChapterActivity;
+
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
 
 public class MainActivity extends FragmentActivity {
 
