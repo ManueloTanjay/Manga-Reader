@@ -1,17 +1,19 @@
 package com.example.mangareader.chapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mangareader.R;
+import com.example.mangareader.pages.PageActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerViewAdapterChapters.MyViewHolder> {
@@ -19,11 +21,14 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
     Context ct;
     //    String chapters[];
     ArrayList<String> chapters;
+    ArrayList<String> chapters_ids;
 
     //    public RecyclerViewAdapterChapters(Context ct, String chapters[]) {
-    public RecyclerViewAdapterChapters(Context ct, ArrayList<String> chapters) {
+    public RecyclerViewAdapterChapters(Context ct, ArrayList<String> chapters, ArrayList<String> chapters_ids) {
         this.ct = ct;
         this.chapters = chapters;
+        this.chapters_ids = chapters_ids;
+        System.out.println("Rec");
     }
 
     @NonNull
@@ -37,6 +42,15 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.textView_item.setText(chapters.get(position));
+
+        holder.chapter_index_key.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ct, PageActivity.class);
+                intent.putExtra("chapter_hash", chapters_ids.get(position));
+                ct.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -47,10 +61,12 @@ public class RecyclerViewAdapterChapters extends RecyclerView.Adapter<RecyclerVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView_item;
+        ConstraintLayout chapter_index_key;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textView_item = itemView.findViewById(R.id.textView_item);
+            chapter_index_key = itemView.findViewById(R.id.chapter_index_key);
         }
     }
 }

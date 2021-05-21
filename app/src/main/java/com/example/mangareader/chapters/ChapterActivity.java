@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -48,12 +49,16 @@ public class ChapterActivity extends FragmentActivity {
     public ArrayList<Chapter> chapters = new ArrayList<>();
     public ArrayList<String> chapters_info = new ArrayList<>();
     public ArrayList<String> chapters_id = new ArrayList<>();
+    public ArrayList<String> chapters_hash = new ArrayList<>();
+    public ArrayList<String> loading = new ArrayList<>();
 
     private Thread getMangaThread;
     private InputStream inputStream;
 
     String manga_id;
     String manga_description;
+    String title;
+    String tags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +69,15 @@ public class ChapterActivity extends FragmentActivity {
         textView_description = (TextView) findViewById(R.id.textView_description);
         textView_genre = (TextView) findViewById(R.id.textView_genre);
 
-        textView_title.setText("narubodsdf");
-        textView_description.setText("dsadfdfkgdjfslkhjsdn;fkgijnsdp;lfigiha;odlfjgnb;dlfjkgnb;lxikfdgb");
-        textView_genre.setText("porn");
+        loading.add("Loading...");
+        // Set the display
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_chapters);
+        rvAdapter = new RecyclerViewAdapterChapters(this, loading, loading);
+
+        recyclerView.setAdapter(rvAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        textView_genre.setText("genres");
         getData();
 
         getMangaThread = new Thread(new getMangaRunnable(this));
@@ -84,7 +95,7 @@ public class ChapterActivity extends FragmentActivity {
         public void run() {
             try {
                 // The first query to get how many chapters there are for this manga
-                String query = baseURL + getChapters.replace("{id}", naruto_id).replace("{offset}", "0");
+                String query = baseURL + getChapters.replace("{id}", manga_id).replace("{offset}", "0");
                 URL url = new URL(query);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.connect();
@@ -132,7 +143,7 @@ public class ChapterActivity extends FragmentActivity {
                 while (countChapter + 1 < totalChapters) {
                     // The following query to get how many chapters there are for this manga
                     int offset = countChapter + 1;
-                    query = baseURL + getChapters.replace("{id}", naruto_id).replace("{offset}", String.valueOf(offset));
+                    query = baseURL + getChapters.replace("{id}", manga_id).replace("{offset}", String.valueOf(offset));
                     url = new URL(query);
                     conn = (HttpURLConnection) url.openConnection();
                     conn.connect();
@@ -177,11 +188,12 @@ public class ChapterActivity extends FragmentActivity {
                 for(Chapter c : chapters) {
                     chapters_info.add("vol." + c.volume + " chapter." + c.chapter + ": " + c.title);
                     chapters_id.add(c.id);
+                    chapters_hash.add(c.hash);
                 }
 
                 // Set the display
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView_chapters);
-                rvAdapter = new RecyclerViewAdapterChapters(ct, chapters_info);
+                rvAdapter = new RecyclerViewAdapterChapters(ct, chapters_info, chapters_id);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -205,7 +217,16 @@ public class ChapterActivity extends FragmentActivity {
         if (getIntent().hasExtra("id")) {
             manga_id = getIntent().getStringExtra("id");
             manga_description = getIntent().getStringExtra("description");
+            title = getIntent().getStringExtra("title");
+            tags = getIntent().getStringExtra("tags");
+            textView_title.setText(title);
+            textView_description.setMaxLines(4);
             textView_description.setText(manga_description);
+            textView_description.setMovementMethod(new ScrollingMovementMethod());
+            textView_genre.setMaxLines(1);
+            textView_genre.setText(tags);
+            textView_genre.setMovementMethod(new ScrollingMovementMethod());
+
             //testData.setText(id);
         }
     }
