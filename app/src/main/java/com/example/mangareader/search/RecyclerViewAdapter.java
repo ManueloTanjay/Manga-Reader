@@ -2,6 +2,7 @@ package com.example.mangareader.search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     Context ct;
     String titles[], desc[], ids[];
+    String tags = "";
 
-    public RecyclerViewAdapter(Context ct, String titles[], String desc[], String ids[]) {
+    public RecyclerViewAdapter(Context ct, String titles[], String desc[], String ids[], String tags[]) {
         this.ct = ct;
         this.titles = titles;
         this.desc = desc;
         this.ids = ids;
+        for(int i = 0; i < tags.length; i++) {
+            this.tags += tags[i] + " ";
+        }
     }
 
     @NonNull
@@ -38,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.t.setText(titles[position]);
+        holder.d.setMaxLines(3);
         holder.d.setText(desc[position]);
 
         holder.pageLayout.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +52,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent intent = new Intent(ct, ChapterActivity.class);
                 intent.putExtra("id", ids[position]);
                 intent.putExtra("description", desc[position]);
+                intent.putExtra("title", titles[position]);
+                intent.putExtra("tags", tags);
                 ct.startActivity(intent);
             }
         });

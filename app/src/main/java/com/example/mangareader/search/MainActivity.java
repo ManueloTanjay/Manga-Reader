@@ -36,6 +36,7 @@ public class MainActivity extends FragmentActivity {
     public ArrayList<String> titles;
     public ArrayList<String> descriptions;
     public ArrayList<String> ids;
+    public ArrayList<String> tags;
 
     public String baseURL = "https://api.mangadex.org";
     public String searchManga = "/manga?title={title}&limit=100&contentRating%5B%5D=safe";
@@ -118,12 +119,18 @@ public class MainActivity extends FragmentActivity {
                 JSONArray searchResults = jsonResult.getJSONArray("results");
                 System.out.println("jsonarray loaded");
 
+
                 mangas = new ArrayList<>();
                 titles = new ArrayList<>();
                 descriptions = new ArrayList<>();
                 ids = new ArrayList<>();
+                tags = new ArrayList<>();
                 for (int i = 0; i < searchResults.length(); i++) {
                     JSONObject entry = searchResults.getJSONObject(i);
+                    JSONArray tagsJSON = entry.getJSONObject("data").getJSONObject("attributes").getJSONArray("tags");
+                    for(int j = 0; j < tagsJSON.length(); j++) {
+                        tags.add(tagsJSON.getJSONObject(j).getJSONObject("attributes").getJSONObject("name").getString("en"));
+                    }
                     String title = entry.getJSONObject("data").getJSONObject("attributes").getJSONObject("title").getString("en");
                     String id = entry.getJSONObject("data").getString("id");
                     String description = entry.getJSONObject("data").getJSONObject("attributes").getJSONObject("description").getString("en");
@@ -147,6 +154,7 @@ public class MainActivity extends FragmentActivity {
             bundle.putStringArrayList("mangaTitles", titles);
             bundle.putStringArrayList("mangaDescriptions", descriptions);
             bundle.putStringArrayList("mangaIds", ids);
+            bundle.putStringArrayList("mangaTags", tags);
 
             results = new SearchResultsFragment();
             results.setArguments(bundle);
