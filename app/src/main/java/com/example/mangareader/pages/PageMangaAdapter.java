@@ -9,23 +9,26 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.mangareader.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class PageMangaAdapter extends PagerAdapter {
 
     private Context ctx;
-    private int[] imageArray = new int[] {R.drawable.img1, R.drawable.img2, R.drawable.img3};
-    private ArrayList<String> imgURLArray = new ArrayList<String>() {
-        {
-            add("https://ner5efrtww4pr.98s0casa9jrd0.mangadex.network:443/8SbpeQd2KxLt2hfMSFFRtCZXxnrpqZoenNekLzqOsW6SRMlYpTo-i9fgxcFXM13q0G-RPf5EgltkQ9l_h9-5n5nYce5NWN69XfB8XPiwxDhpHI_pbm-Hddn5C9GKNa9XTWFUVDgEgmMbaueU9Lg_PNNC8jgtHU6JBQAiaJS3ubLIbVHVRGIhsL2Lzk28Lzom/data/040ba5c0bc64fe338e0580a728b9f31e/21-f7e03fca6ea8676446ee3a0267205fb8fcce272d37415fffebc34ccb4163183d.png");
-            add("https://ner5efrtww4pr.98s0casa9jrd0.mangadex.network:443/8SbpeQd2KxLt2hfMSFFRtCZXxnrpqZoenNekLzqOsW6SRMlYpTo-i9fgxcFXM13q0G-RPf5EgltkQ9l_h9-5n5nYce5NWN69XfB8XPiwxDhpHI_pbm-Hddn5C9GKNa9XTWFUVDgEgmMbaueU9Lg_PNNC8jgtHU6JBQAiaJS3ubLIbVHVRGIhsL2Lzk28Lzom/data/040ba5c0bc64fe338e0580a728b9f31e/22-10c1e42b46ef33a2ce2229a02c17715b11e75f3af823ddbc915b3a9dc272a00f.png");
-            add("https://ner5efrtww4pr.98s0casa9jrd0.mangadex.network:443/8SbpeQd2KxLt2hfMSFFRtCZXxnrpqZoenNekLzqOsW6SRMlYpTo-i9fgxcFXM13q0G-RPf5EgltkQ9l_h9-5n5nYce5NWN69XfB8XPiwxDhpHI_pbm-Hddn5C9GKNa9XTWFUVDgEgmMbaueU9Lg_PNNC8jgtHU6JBQAiaJS3ubLIbVHVRGIhsL2Lzk28Lzom/data/040ba5c0bc64fe338e0580a728b9f31e/23-3bf0cecdc6241b1b50cf64415c43af9cfa3f6c07b1356615efdb428b065ba1ba.png");
-        }
-    };
+    private int[] imageArray = new int[] {R.drawable.img1};
+    private ArrayList<String> imgURLArray = new ArrayList<String>();
+//    {
+//        {
+//            add("https://ner5efrtww4pr.98s0casa9jrd0.mangadex.network/EQV_mOMcxFTPU8j9CsFUL7gn4K2Jr1eoTQUSI6RrGVMi3Kg4y8HcRikFBl9XY14M_TqPZc2IJ74ofOi-O-JNdfHHE6rey8iY2HGe1DVFsJzsLk_LLIEQq-Z8Q4zVorNbCvmh9kVYWdDVbqpUZHoCCprVyp-62n51YXee0gVqeiKBc4WY0sTbvMMdyynwIxzn/data/b89e88166ad42961f21f99f73b95435c/x10-5820dbc6a9d98502cd99d8b9ca16d0ecfc2136080fdbbc3cf7aab60ec4da2a4c.png");
+//            add("https://ner5efrtww4pr.98s0casa9jrd0.mangadex.network:443/EQV_mOMcxFTPU8j9CsFUL7gn4K2Jr1eoTQUSI6RrGVMi3Kg4y8HcRikFBl9XY14M_TqPZc2IJ74ofOi-O-JNdfHHE6rey8iY2HGe1DVFsJzsLk_LLIEQq-Z8Q4zVorNbCvmh9kVYWdDVbqpUZHoCCprVyp-62n51YXee0gVqeiKBc4WY0sTbvMMdyynwIxzn/data/b89e88166ad42961f21f99f73b95435c/x11-289810ff68447f8ec49532d5b2764d82dfaed6e56aacba153278896062cac213.png");
+//            add("https://ner5efrtww4pr.98s0casa9jrd0.mangadex.network:443/EQV_mOMcxFTPU8j9CsFUL7gn4K2Jr1eoTQUSI6RrGVMi3Kg4y8HcRikFBl9XY14M_TqPZc2IJ74ofOi-O-JNdfHHE6rey8iY2HGe1DVFsJzsLk_LLIEQq-Z8Q4zVorNbCvmh9kVYWdDVbqpUZHoCCprVyp-62n51YXee0gVqeiKBc4WY0sTbvMMdyynwIxzn/data/b89e88166ad42961f21f99f73b95435c/x12-b96b09bb66d6e3ae7be5628fc56f0cb30aa86f6b52c51c2ed2d1d6f89e7ec1ba.png");
+//        }
+//    };
 
-    public PageMangaAdapter(Context context) {
+    public PageMangaAdapter(Context context, ArrayList<String> imgURLArray) {
         ctx = context;
+        this.imgURLArray = imgURLArray;
     }
 
     @Override
@@ -44,10 +47,14 @@ public class PageMangaAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView imgView = new ImageView(ctx);
-        imgView.setScaleType(ImageView.ScaleType.CENTER_CROP); // center the imgView
+        imgView.setScaleType(ImageView.ScaleType.FIT_CENTER); // center the imgView
 //        imgView.setImageResource(imageArray[position]); // set imgView to hold the image
 
-        container.addView(imgView, 0); // set container to hold imgView
+        Picasso.get().load(imgURLArray.get(position))
+                .placeholder(R.drawable.image_loading)
+                .error(R.drawable.image_not_found).into(imgView);
+
+        container.addView(imgView); // set container to hold imgView
         return imgView;
     }
 

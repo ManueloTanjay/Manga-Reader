@@ -49,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.pageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ct, PageActivity.class);
+                Intent intent = new Intent(ct, ChapterActivity.class);
                 intent.putExtra("id", ids[position]);
                 intent.putExtra("description", desc[position]);
                 intent.putExtra("title", titles[position]);

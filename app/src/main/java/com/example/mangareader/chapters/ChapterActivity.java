@@ -1,7 +1,6 @@
 package com.example.mangareader.chapters;
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -80,14 +79,14 @@ public class ChapterActivity extends FragmentActivity {
         textView_genre.setText("genres");
         getData();
 
-        getMangaThread = new Thread(new getMangaRunnable(this));
+        getMangaThread = new Thread(new GetMangaRunnable(this));
         getMangaThread.start();
     }
 
-    private class getMangaRunnable implements Runnable {
+    private class GetMangaRunnable implements Runnable {
         Context ct;
 
-        public getMangaRunnable(Context ct) {
+        public GetMangaRunnable(Context ct) {
             this.ct = ct;
         }
 
