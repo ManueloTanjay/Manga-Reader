@@ -43,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.t.setText(titles[position]);
-        holder.d.setMaxLines(3);
+        holder.d.setMaxLines(4);
         holder.d.setText(desc[position]);
 
         holder.pageLayout.setOnClickListener(new View.OnClickListener() {

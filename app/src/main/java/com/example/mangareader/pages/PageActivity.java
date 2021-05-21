@@ -23,8 +23,8 @@ public class PageActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        if (getIntent().hasExtra("id")) {
-            id = getIntent().getStringExtra("id");
+        if (getIntent().hasExtra("chapter_hash")) {
+            id = getIntent().getStringExtra("chapter_hash");
             testData.setText(id);
         }
     }

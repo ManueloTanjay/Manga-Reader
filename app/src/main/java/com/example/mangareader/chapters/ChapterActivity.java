@@ -49,6 +49,7 @@ public class ChapterActivity extends FragmentActivity {
     public ArrayList<Chapter> chapters = new ArrayList<>();
     public ArrayList<String> chapters_info = new ArrayList<>();
     public ArrayList<String> chapters_id = new ArrayList<>();
+    public ArrayList<String> chapters_hash = new ArrayList<>();
     public ArrayList<String> loading = new ArrayList<>();
 
     private Thread getMangaThread;
@@ -71,7 +72,7 @@ public class ChapterActivity extends FragmentActivity {
         loading.add("Loading...");
         // Set the display
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_chapters);
-        rvAdapter = new RecyclerViewAdapterChapters(this, loading);
+        rvAdapter = new RecyclerViewAdapterChapters(this, loading, loading);
 
         recyclerView.setAdapter(rvAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -187,11 +188,12 @@ public class ChapterActivity extends FragmentActivity {
                 for(Chapter c : chapters) {
                     chapters_info.add("vol." + c.volume + " chapter." + c.chapter + ": " + c.title);
                     chapters_id.add(c.id);
+                    chapters_hash.add(c.hash);
                 }
 
                 // Set the display
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView_chapters);
-                rvAdapter = new RecyclerViewAdapterChapters(ct, chapters_info);
+                rvAdapter = new RecyclerViewAdapterChapters(ct, chapters_info, chapters_hash);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -218,7 +220,7 @@ public class ChapterActivity extends FragmentActivity {
             title = getIntent().getStringExtra("title");
             tags = getIntent().getStringExtra("tags");
             textView_title.setText(title);
-            textView_description.setMaxLines(3);
+            textView_description.setMaxLines(4);
             textView_description.setText(manga_description);
             textView_description.setMovementMethod(new ScrollingMovementMethod());
             textView_genre.setMaxLines(1);
