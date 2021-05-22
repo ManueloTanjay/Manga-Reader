@@ -39,7 +39,8 @@ public class MainActivity extends FragmentActivity {
     public ArrayList<String> tags;
 
     public String baseURL = "https://api.mangadex.org";
-    public String searchManga = "/manga?title={title}&limit=100&contentRating%5B%5D=safe";
+    public String searchManga = "/manga?title={title}&limit=100";
+    //&contentRating%5B%5D=safe";
     public String getChapters = "/chapter?manga=%s&limit=100&offset=%s&translatedLanguage=en";
     public String getBaseURL = "/at-home/server/%s";
 
