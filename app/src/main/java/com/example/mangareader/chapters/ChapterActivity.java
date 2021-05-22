@@ -29,11 +29,11 @@ public class ChapterActivity extends FragmentActivity {
 
     public String baseURL = "https://api.mangadex.org";
     public String searchManga = "/manga?title=%s&limit=100&contentRating%5B%5D=safe";
-    public String getChapters = "/chapter?manga={id}&limit=100&offset={offset}&translatedLanguage=en";
+    public String getChapters = "/chapter?manga={id}&limit=100&offset={offset}&translatedLanguage[]=en";
     public String getBaseURL = "/at-home/server/%s";
 
     // Fragments
-//    public MangaChaptersFragment mangaChaptersFragment;
+    //public MangaChaptersFragment mangaChaptersFragment;
 
     // View element
     RecyclerView recyclerView;
