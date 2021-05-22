@@ -1,5 +1,5 @@
 # Manga-Reader
-Android manga reader that uses MangaDex API 5.0.8
+Android manga reader that uses MangaDex API 5.0.10
 
 Compile and run like you would any other Android Studio project.
 Android version must be 7.0 (Nougat) and above.
